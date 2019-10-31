@@ -35,6 +35,7 @@
   https://github.com/uknowsec/SharpCheckInfo
   
   
-### Net-GPPPassword
+### Net-GPPPassword: .NET implementation of Get-GPPPassword. Retrieves the plaintext password and other information for accounts pushed through Group Policy Preferences.
+
   https://github.com/outflanknl/Net-GPPPassword
 
