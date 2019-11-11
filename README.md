@@ -38,4 +38,8 @@
 ### Net-GPPPassword: .NET implementation of Get-GPPPassword. Retrieves the plaintext password and other information for accounts pushed through Group Policy Preferences.
 
   https://github.com/outflanknl/Net-GPPPassword
+  
+### SharpSQLDump：Quickly locate valuable data in database
+内网渗透中快速获取数据库所有库名，表名，列名。具体判断后再去翻数据，节省时间。适用于mysql，mssql。
 
+  https://github.com/uknowsec/SharpSQLDump
