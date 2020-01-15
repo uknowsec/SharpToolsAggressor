@@ -43,3 +43,8 @@
 内网渗透中快速获取数据库所有库名，表名，列名。具体判断后再去翻数据，节省时间。适用于mysql，mssql。
 
   https://github.com/uknowsec/SharpSQLDump
+  
+### SharpNetCheck：Quickly Net Check
+在内网渗透过程中，对可以出网的机器是十分渴望的。在收集大量弱口令的情况下，一个一个去测试能不能出网太麻烦了。所以就有了这个工具，可配合如wmiexec、psexec等横向工具进行批量检测，该工具可以在dnslog中回显内网ip地址和计算机名，可实现内网中的快速定位可出网机器。
+
+https://github.com/uknowsec/SharpNetCheck
