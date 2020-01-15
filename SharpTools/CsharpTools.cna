@@ -48,6 +48,11 @@ sub SharpSQLDump {
 		bexecute_assembly($bid, script_resource("SharpSQLDump.exe"), $arg);
 }
 
+sub SharpNetCheck {
+		$arg = join(' ', @($3['type'],"-host",$3['host']));
+		bexecute_assembly($bid, script_resource("SharpNetCheck.exe"), $arg);
+}
+
 popup beacon_bottom {
     menu "SharpTools" {
         item "SharpEventLog" {
@@ -126,6 +131,15 @@ popup beacon_bottom {
 			drow_text($dialog, "username", "username:  ");	
 			drow_text($dialog, "password", "password:  ");			
 			drow_combobox($dialog, "type", "-mysql/-mssql", @("-mysql", "-mssql"));
+            dbutton_action($dialog, "Neo Go ~~");
+			dialog_show($dialog);
+        }
+		item "SharpNetCheck" {
+			$bid = $1['@'];
+			$dialog = dialog("SharpNetCheck", %(host => "",,type => "all",bid => $bid), &SharpNetCheck);
+			dialog_description($dialog, "Quickly Net Check");	
+			drow_combobox($dialog, "type", "-dns/-http/all", @("-dns", "-http","all"));
+			drow_text($dialog, "host", "host/ip:  ");		
             dbutton_action($dialog, "Neo Go ~~");
 			dialog_show($dialog);
         }
