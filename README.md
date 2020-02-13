@@ -54,10 +54,3 @@ https://github.com/uknowsec/SharpNetCheck
 https://github.com/djhohnstein/SharpWeb
 
 
-### SharpMove: .NET Project for performing Authenticated Remote Execution
-
-https://github.com/0xthirteen/SharpMove
-
-### SharpRDP: Remote Desktop Protocol .NET Console Application for Authenticated Command Execution
-
-https://github.com/0xthirteen/SharpRDP
